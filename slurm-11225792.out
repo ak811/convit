@@ -1,0 +1,407 @@
+| distributed init (rank 0): env://
+Namespace(aa='rand-m9-mstd0.5-inc1', batch_size=64, clip_grad=None, color_jitter=0.4, cooldown_epochs=10, cutmix=1.0, cutmix_minmax=None, data_path='./data', data_set='CIFAR10', decay_epochs=30, decay_rate=0.1, device='cuda', dist_backend='nccl', dist_url='env://', distributed=True, drop=0.0, drop_block=None, drop_path=0.1, embed_dim=48, epochs=100, eval=False, gpu=0, inat_category='name', input_size=224, local_up_to_layer=10, locality_strength=1.0, lr=0.0005, lr_noise=None, lr_noise_pct=0.67, lr_noise_std=1.0, min_lr=1e-05, mixup=0.8, mixup_mode='batch', mixup_prob=1.0, mixup_switch_prob=0.5, model='convit_tiny', model_ema=False, model_ema_decay=0.99996, model_ema_force_cpu=False, momentum=0.9, nb_classes=None, num_workers=10, opt='adamw', opt_betas=None, opt_eps=1e-08, output_dir='exp/whytoff-tiny/c10', patience_epochs=10, pin_mem=True, pretrained=False, rank=0, recount=1, remode='pixel', repeated_aug=True, reprob=0.25, resplit=False, resume='', sampling_ratio=1.0, save_every=None, sched='cosine', seed=0, smoothing=0.1, start_epoch=0, train_interpolation='bicubic', warmup_epochs=5, warmup_lr=1e-06, weight_decay=0.05, world_size=1)
+Files already downloaded and verified
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/transforms.py:258: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+Files already downloaded and verified
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/utils/data/dataloader.py:477: UserWarning: This DataLoader will create 10 worker processes in total. Our suggested max number of worker in current system is 1, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  cpuset_checked))
+Creating model: convit_tiny
+VisionTransformer(
+  (patch_embed): PatchEmbed(
+    (proj): Conv2d(3, 192, kernel_size=(16, 16), stride=(16, 16))
+  )
+  (pos_drop): Dropout(p=0.0, inplace=False)
+  (blocks): ModuleList(
+    (0): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): Identity()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (1): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (2): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (3): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (4): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (5): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (6): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (7): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (8): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (9): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): GPSA(
+        (qk): Linear(in_features=192, out_features=384, bias=False)
+        (v): Linear(in_features=192, out_features=192, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (pos_proj): Linear(in_features=3, out_features=4, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (10): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): MHSA(
+        (qkv): Linear(in_features=192, out_features=576, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (11): Block(
+      (norm1): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (attn): MHSA(
+        (qkv): Linear(in_features=192, out_features=576, bias=False)
+        (attn_drop): Dropout(p=0.0, inplace=False)
+        (proj): Linear(in_features=192, out_features=192, bias=True)
+        (proj_drop): Dropout(p=0.0, inplace=False)
+      )
+      (drop_path): DropPath()
+      (norm2): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+      (mlp): Mlp(
+        (fc1): Linear(in_features=192, out_features=768, bias=True)
+        (act): GELU()
+        (fc2): Linear(in_features=768, out_features=192, bias=True)
+        (drop): Dropout(p=0.0, inplace=False)
+      )
+    )
+  )
+  (norm): LayerNorm((192,), eps=1e-06, elementwise_affine=True)
+  (head): Linear(in_features=192, out_features=10, bias=True)
+)
+number of params: 5519442
+Start training
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torchvision/transforms/functional.py:365: UserWarning: Argument interpolation should be of type InterpolationMode instead of int. Please, use InterpolationMode enum.
+  "Argument interpolation should be of type InterpolationMode instead of int. "
+exp:mask_count: 147210
+exp:maskt percent: 0.9579992890357971
+exp:mask_count: 147210
+exp:maskt percent: 0.9579992890357971
+Epoch: [0]  [  0/780]  eta: 2:01:25  lr: 0.000001  loss: 2.2954 (2.2954)  time: 9.3407  data: 6.3904  max mem: 3602
+Epoch: [0]  [ 10/780]  eta: 0:13:03  lr: 0.000001  loss: 2.3271 (2.3291)  time: 1.0180  data: 0.5837  max mem: 3664
+Epoch: [0]  [ 20/780]  eta: 0:08:05  lr: 0.000001  loss: 2.3311 (2.3382)  time: 0.2043  data: 0.0059  max mem: 3664
+Epoch: [0]  [ 30/780]  eta: 0:06:15  lr: 0.000001  loss: 2.3262 (2.3291)  time: 0.2163  data: 0.0060  max mem: 3664
+Epoch: [0]  [ 40/780]  eta: 0:05:19  lr: 0.000001  loss: 2.3208 (2.3308)  time: 0.2147  data: 0.0033  max mem: 3664
+Epoch: [0]  [ 50/780]  eta: 0:04:44  lr: 0.000001  loss: 2.3201 (2.3258)  time: 0.2189  data: 0.0028  max mem: 3664
+Epoch: [0]  [ 60/780]  eta: 0:04:20  lr: 0.000001  loss: 2.2978 (2.3217)  time: 0.2161  data: 0.0032  max mem: 3664
+Epoch: [0]  [ 70/780]  eta: 0:04:00  lr: 0.000001  loss: 2.2834 (2.3156)  time: 0.2097  data: 0.0032  max mem: 3664
+Epoch: [0]  [ 80/780]  eta: 0:03:45  lr: 0.000001  loss: 2.2834 (2.3125)  time: 0.2050  data: 0.0022  max mem: 3664
+Epoch: [0]  [ 90/780]  eta: 0:03:34  lr: 0.000001  loss: 2.2975 (2.3113)  time: 0.2099  data: 0.0028  max mem: 3664
+Epoch: [0]  [100/780]  eta: 0:03:24  lr: 0.000001  loss: 2.2978 (2.3095)  time: 0.2134  data: 0.0051  max mem: 3664
+Epoch: [0]  [110/780]  eta: 0:03:16  lr: 0.000001  loss: 2.2937 (2.3086)  time: 0.2164  data: 0.0050  max mem: 3664
+Epoch: [0]  [120/780]  eta: 0:03:09  lr: 0.000001  loss: 2.3039 (2.3086)  time: 0.2195  data: 0.0033  max mem: 3664
+Epoch: [0]  [130/780]  eta: 0:03:03  lr: 0.000001  loss: 2.3058 (2.3074)  time: 0.2183  data: 0.0027  max mem: 3664
+Epoch: [0]  [140/780]  eta: 0:02:57  lr: 0.000001  loss: 2.3024 (2.3070)  time: 0.2133  data: 0.0027  max mem: 3664
+Epoch: [0]  [150/780]  eta: 0:02:51  lr: 0.000001  loss: 2.3048 (2.3069)  time: 0.2082  data: 0.0029  max mem: 3664
+Epoch: [0]  [160/780]  eta: 0:02:46  lr: 0.000001  loss: 2.2954 (2.3057)  time: 0.2102  data: 0.0038  max mem: 3664
+Epoch: [0]  [170/780]  eta: 0:02:42  lr: 0.000001  loss: 2.2863 (2.3044)  time: 0.2135  data: 0.0054  max mem: 3664
+Epoch: [0]  [180/780]  eta: 0:02:38  lr: 0.000001  loss: 2.2877 (2.3044)  time: 0.2215  data: 0.0035  max mem: 3664
+Epoch: [0]  [190/780]  eta: 0:02:34  lr: 0.000001  loss: 2.2900 (2.3035)  time: 0.2261  data: 0.0028  max mem: 3664
+Epoch: [0]  [200/780]  eta: 0:02:30  lr: 0.000001  loss: 2.2805 (2.3024)  time: 0.2153  data: 0.0044  max mem: 3664
+Epoch: [0]  [210/780]  eta: 0:02:26  lr: 0.000001  loss: 2.2784 (2.3015)  time: 0.2185  data: 0.0043  max mem: 3664
+Epoch: [0]  [220/780]  eta: 0:02:23  lr: 0.000001  loss: 2.2731 (2.3003)  time: 0.2253  data: 0.0038  max mem: 3664
+Epoch: [0]  [230/780]  eta: 0:02:19  lr: 0.000001  loss: 2.2708 (2.2990)  time: 0.2185  data: 0.0038  max mem: 3664
+Epoch: [0]  [240/780]  eta: 0:02:16  lr: 0.000001  loss: 2.2841 (2.2987)  time: 0.2158  data: 0.0028  max mem: 3664
+Epoch: [0]  [250/780]  eta: 0:02:13  lr: 0.000001  loss: 2.2874 (2.2980)  time: 0.2202  data: 0.0028  max mem: 3664
+Epoch: [0]  [260/780]  eta: 0:02:10  lr: 0.000001  loss: 2.2807 (2.2970)  time: 0.2216  data: 0.0036  max mem: 3664
+Epoch: [0]  [270/780]  eta: 0:02:06  lr: 0.000001  loss: 2.2807 (2.2968)  time: 0.2129  data: 0.0033  max mem: 3664
+Epoch: [0]  [280/780]  eta: 0:02:03  lr: 0.000001  loss: 2.2902 (2.2966)  time: 0.2101  data: 0.0030  max mem: 3664
+Epoch: [0]  [290/780]  eta: 0:02:00  lr: 0.000001  loss: 2.2817 (2.2957)  time: 0.2169  data: 0.0028  max mem: 3664
+Epoch: [0]  [300/780]  eta: 0:01:57  lr: 0.000001  loss: 2.2671 (2.2953)  time: 0.2164  data: 0.0034  max mem: 3664
+Epoch: [0]  [310/780]  eta: 0:01:55  lr: 0.000001  loss: 2.2758 (2.2945)  time: 0.2210  data: 0.0049  max mem: 3664
+Epoch: [0]  [320/780]  eta: 0:01:52  lr: 0.000001  loss: 2.2758 (2.2940)  time: 0.2203  data: 0.0044  max mem: 3664
+Epoch: [0]  [330/780]  eta: 0:01:49  lr: 0.000001  loss: 2.2790 (2.2934)  time: 0.2138  data: 0.0045  max mem: 3664
+Epoch: [0]  [340/780]  eta: 0:01:46  lr: 0.000001  loss: 2.2804 (2.2930)  time: 0.2073  data: 0.0053  max mem: 3664
+Epoch: [0]  [350/780]  eta: 0:01:43  lr: 0.000001  loss: 2.2820 (2.2926)  time: 0.2043  data: 0.0042  max mem: 3664
+Epoch: [0]  [360/780]  eta: 0:01:40  lr: 0.000001  loss: 2.2706 (2.2922)  time: 0.2088  data: 0.0054  max mem: 3664
+Epoch: [0]  [370/780]  eta: 0:01:37  lr: 0.000001  loss: 2.2876 (2.2922)  time: 0.2053  data: 0.0041  max mem: 3664
+Epoch: [0]  [380/780]  eta: 0:01:35  lr: 0.000001  loss: 2.2888 (2.2918)  time: 0.2126  data: 0.0025  max mem: 3664
+Epoch: [0]  [390/780]  eta: 0:01:32  lr: 0.000001  loss: 2.2713 (2.2915)  time: 0.2198  data: 0.0050  max mem: 3664
+Epoch: [0]  [400/780]  eta: 0:01:29  lr: 0.000001  loss: 2.2699 (2.2911)  time: 0.2093  data: 0.0045  max mem: 3664
+Epoch: [0]  [410/780]  eta: 0:01:27  lr: 0.000001  loss: 2.2737 (2.2907)  time: 0.2033  data: 0.0033  max mem: 3664
+Epoch: [0]  [420/780]  eta: 0:01:24  lr: 0.000001  loss: 2.2683 (2.2903)  time: 0.2069  data: 0.0037  max mem: 3664
+Epoch: [0]  [430/780]  eta: 0:01:22  lr: 0.000001  loss: 2.2676 (2.2900)  time: 0.1983  data: 0.0028  max mem: 3664
+Epoch: [0]  [440/780]  eta: 0:01:19  lr: 0.000001  loss: 2.2739 (2.2894)  time: 0.2007  data: 0.0029  max mem: 3664
+Epoch: [0]  [450/780]  eta: 0:01:17  lr: 0.000001  loss: 2.2739 (2.2891)  time: 0.2127  data: 0.0040  max mem: 3664
+Epoch: [0]  [460/780]  eta: 0:01:14  lr: 0.000001  loss: 2.2757 (2.2887)  time: 0.2116  data: 0.0040  max mem: 3664
+Epoch: [0]  [470/780]  eta: 0:01:12  lr: 0.000001  loss: 2.2589 (2.2882)  time: 0.2155  data: 0.0035  max mem: 3664
+Epoch: [0]  [480/780]  eta: 0:01:09  lr: 0.000001  loss: 2.2511 (2.2878)  time: 0.2211  data: 0.0030  max mem: 3664
+Epoch: [0]  [490/780]  eta: 0:01:07  lr: 0.000001  loss: 2.2684 (2.2874)  time: 0.2238  data: 0.0020  max mem: 3664
+Epoch: [0]  [500/780]  eta: 0:01:04  lr: 0.000001  loss: 2.2782 (2.2871)  time: 0.2240  data: 0.0023  max mem: 3664
+Epoch: [0]  [510/780]  eta: 0:01:02  lr: 0.000001  loss: 2.2782 (2.2867)  time: 0.2142  data: 0.0031  max mem: 3664
+Epoch: [0]  [520/780]  eta: 0:01:00  lr: 0.000001  loss: 2.2695 (2.2864)  time: 0.2089  data: 0.0023  max mem: 3664
+Epoch: [0]  [530/780]  eta: 0:00:57  lr: 0.000001  loss: 2.2646 (2.2860)  time: 0.2124  data: 0.0033  max mem: 3664
+Epoch: [0]  [540/780]  eta: 0:00:55  lr: 0.000001  loss: 2.2605 (2.2855)  time: 0.2127  data: 0.0054  max mem: 3664
+Epoch: [0]  [550/780]  eta: 0:00:52  lr: 0.000001  loss: 2.2676 (2.2853)  time: 0.2049  data: 0.0049  max mem: 3664
+Epoch: [0]  [560/780]  eta: 0:00:50  lr: 0.000001  loss: 2.2776 (2.2854)  time: 0.2087  data: 0.0038  max mem: 3664
+Epoch: [0]  [570/780]  eta: 0:00:48  lr: 0.000001  loss: 2.2776 (2.2852)  time: 0.2187  data: 0.0038  max mem: 3664
+Epoch: [0]  [580/780]  eta: 0:00:45  lr: 0.000001  loss: 2.2663 (2.2851)  time: 0.2173  data: 0.0041  max mem: 3664
+Epoch: [0]  [590/780]  eta: 0:00:43  lr: 0.000001  loss: 2.2796 (2.2849)  time: 0.2120  data: 0.0041  max mem: 3664
+Epoch: [0]  [600/780]  eta: 0:00:41  lr: 0.000001  loss: 2.2700 (2.2846)  time: 0.2127  data: 0.0038  max mem: 3664
+Epoch: [0]  [610/780]  eta: 0:00:38  lr: 0.000001  loss: 2.2640 (2.2844)  time: 0.2211  data: 0.0053  max mem: 3664
+Epoch: [0]  [620/780]  eta: 0:00:36  lr: 0.000001  loss: 2.2871 (2.2846)  time: 0.2166  data: 0.0053  max mem: 3664
+Epoch: [0]  [630/780]  eta: 0:00:34  lr: 0.000001  loss: 2.2871 (2.2843)  time: 0.2072  data: 0.0036  max mem: 3664
+Epoch: [0]  [640/780]  eta: 0:00:31  lr: 0.000001  loss: 2.2745 (2.2841)  time: 0.2170  data: 0.0036  max mem: 3664
+Epoch: [0]  [650/780]  eta: 0:00:29  lr: 0.000001  loss: 2.2570 (2.2837)  time: 0.2234  data: 0.0022  max mem: 3664
+Epoch: [0]  [660/780]  eta: 0:00:27  lr: 0.000001  loss: 2.2478 (2.2832)  time: 0.2186  data: 0.0017  max mem: 3664
+Epoch: [0]  [670/780]  eta: 0:00:25  lr: 0.000001  loss: 2.2680 (2.2831)  time: 0.2117  data: 0.0017  max mem: 3664
+Epoch: [0]  [680/780]  eta: 0:00:22  lr: 0.000001  loss: 2.2801 (2.2831)  time: 0.2063  data: 0.0023  max mem: 3664
+Epoch: [0]  [690/780]  eta: 0:00:20  lr: 0.000001  loss: 2.2658 (2.2827)  time: 0.2117  data: 0.0044  max mem: 3664
+Epoch: [0]  [700/780]  eta: 0:00:18  lr: 0.000001  loss: 2.2626 (2.2824)  time: 0.2110  data: 0.0033  max mem: 3664
+Epoch: [0]  [710/780]  eta: 0:00:15  lr: 0.000001  loss: 2.2613 (2.2822)  time: 0.2086  data: 0.0025  max mem: 3664
+Epoch: [0]  [720/780]  eta: 0:00:13  lr: 0.000001  loss: 2.2613 (2.2820)  time: 0.2190  data: 0.0046  max mem: 3664
+Epoch: [0]  [730/780]  eta: 0:00:11  lr: 0.000001  loss: 2.2646 (2.2818)  time: 0.2154  data: 0.0033  max mem: 3664
+Epoch: [0]  [740/780]  eta: 0:00:09  lr: 0.000001  loss: 2.2714 (2.2816)  time: 0.2130  data: 0.0017  max mem: 3664
+Epoch: [0]  [750/780]  eta: 0:00:06  lr: 0.000001  loss: 2.2686 (2.2815)  time: 0.2117  data: 0.0027  max mem: 3664
+Epoch: [0]  [760/780]  eta: 0:00:04  lr: 0.000001  loss: 2.2618 (2.2812)  time: 0.2052  data: 0.0033  max mem: 3664
+Epoch: [0]  [770/780]  eta: 0:00:02  lr: 0.000001  loss: 2.2501 (2.2810)  time: 0.1454  data: 0.0017  max mem: 3664
+Epoch: [0]  [779/780]  eta: 0:00:00  lr: 0.000001  loss: 2.2668 (2.2810)  time: 0.0871  data: 0.0001  max mem: 3664
+Epoch: [0] Total time: 0:02:53 (0.2227 s / it)
+Averaged stats: lr: 0.000001  loss: 2.2668 (2.2810)
+Test:  [  0/157]  eta: 0:02:52  loss: 2.0782 (2.0782)  acc1: 29.6875 (29.6875)  acc5: 85.9375 (85.9375)  time: 1.1010  data: 0.9509  max mem: 3664
+Test:  [ 10/157]  eta: 0:00:36  loss: 2.1125 (2.1291)  acc1: 26.5625 (25.1420)  acc5: 76.5625 (77.2727)  time: 0.2455  data: 0.1027  max mem: 3664
+Test:  [ 20/157]  eta: 0:00:26  loss: 2.1160 (2.1243)  acc1: 25.0000 (24.4792)  acc5: 76.5625 (77.0089)  time: 0.1504  data: 0.0172  max mem: 3664
+Test:  [ 30/157]  eta: 0:00:21  loss: 2.1121 (2.1194)  acc1: 23.4375 (24.3448)  acc5: 78.1250 (77.4698)  time: 0.1258  data: 0.0152  max mem: 3664
+Test:  [ 40/157]  eta: 0:00:17  loss: 2.1121 (2.1225)  acc1: 23.4375 (24.1235)  acc5: 78.1250 (77.3628)  time: 0.1052  data: 0.0111  max mem: 3664
+Test:  [ 50/157]  eta: 0:00:15  loss: 2.1307 (2.1254)  acc1: 21.8750 (23.4988)  acc5: 78.1250 (77.5735)  time: 0.1000  data: 0.0067  max mem: 3664
+Test:  [ 60/157]  eta: 0:00:13  loss: 2.1172 (2.1241)  acc1: 20.3125 (23.4631)  acc5: 78.1250 (77.9713)  time: 0.1012  data: 0.0103  max mem: 3664
+Test:  [ 70/157]  eta: 0:00:11  loss: 2.1110 (2.1221)  acc1: 25.0000 (23.6576)  acc5: 79.6875 (78.0810)  time: 0.1040  data: 0.0193  max mem: 3664
+Test:  [ 80/157]  eta: 0:00:09  loss: 2.1228 (2.1210)  acc1: 25.0000 (23.5532)  acc5: 79.6875 (78.5108)  time: 0.1062  data: 0.0262  max mem: 3664
+Test:  [ 90/157]  eta: 0:00:08  loss: 2.1324 (2.1225)  acc1: 21.8750 (23.4890)  acc5: 76.5625 (78.2109)  time: 0.1055  data: 0.0171  max mem: 3664
+Test:  [100/157]  eta: 0:00:06  loss: 2.1374 (2.1237)  acc1: 21.8750 (23.3447)  acc5: 73.4375 (77.7847)  time: 0.1020  data: 0.0083  max mem: 3664
+Test:  [110/157]  eta: 0:00:05  loss: 2.1337 (2.1245)  acc1: 21.8750 (23.1700)  acc5: 75.0000 (77.6464)  time: 0.1019  data: 0.0175  max mem: 3664
+Test:  [120/157]  eta: 0:00:04  loss: 2.1061 (2.1222)  acc1: 21.8750 (23.3213)  acc5: 76.5625 (77.7634)  time: 0.1045  data: 0.0156  max mem: 3664
+Test:  [130/157]  eta: 0:00:03  loss: 2.1091 (2.1226)  acc1: 26.5625 (23.4971)  acc5: 76.5625 (77.6837)  time: 0.1041  data: 0.0113  max mem: 3664
+Test:  [140/157]  eta: 0:00:01  loss: 2.1189 (2.1215)  acc1: 26.5625 (23.7367)  acc5: 78.1250 (77.7039)  time: 0.0934  data: 0.0091  max mem: 3664
+Test:  [150/157]  eta: 0:00:00  loss: 2.1140 (2.1217)  acc1: 25.0000 (23.6962)  acc5: 78.1250 (77.7214)  time: 0.0567  data: 0.0033  max mem: 3664
+Traceback (most recent call last):
+  File "main.py", line 383, in <module>
+    main(args)
+  File "main.py", line 338, in main
+    test_stats = evaluate(data_loader_val, model, device)
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/autograd/grad_mode.py", line 27, in decorate_context
+    return func(*args, **kwargs)
+  File "/users/mgovind/convit/engine.py", line 87, in evaluate
+    output = model(images)
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/nn/parallel/distributed.py", line 705, in forward
+    output = self.module(*inputs[0], **kwargs[0])
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/users/mgovind/convit/convit.py", line 399, in forward
+    x = self.forward_features(x)
+  File "/users/mgovind/convit/convit.py", line 393, in forward_features
+    x = blk(x)
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/users/mgovind/convit/convit.py", line 241, in forward
+    x = x + self.drop_path(self.attn(self.norm1(x)))
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 889, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/users/mgovind/convit/convit.py", line 213, in forward
+    attn = attn * (new_mask_attn).float() 
+RuntimeError: The size of tensor a (16) must match the size of tensor b (64) at non-singleton dimension 0
+Traceback (most recent call last):
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/distributed/launch.py", line 340, in <module>
+    main()
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/distributed/launch.py", line 326, in main
+    sigkill_handler(signal.SIGTERM, None)  # not coming back
+  File "/users/mgovind/.conda/envs/convitenv/lib/python3.7/site-packages/torch/distributed/launch.py", line 301, in sigkill_handler
+    raise subprocess.CalledProcessError(returncode=last_return_code, cmd=cmd)
+subprocess.CalledProcessError: Command '['/users/mgovind/.conda/envs/convitenv/bin/python', '-u', 'main.py', '--model', 'convit_tiny', '--batch-size', '64', '--output_dir', 'exp/whytoff-tiny/c10', '--data-path', './data', '--data-set', 'CIFAR10']' returned non-zero exit status 1.
+Killing subprocess 1616446
