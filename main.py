@@ -40,6 +40,8 @@ def get_args_parser():
                         help='Name of model to train')
     parser.add_argument('--pretrained', action='store_true')
 
+    parser.add_argument('--local_rank', type=int, default=0, help='ignored when using torch.distributed.launch --use_env')
+
     parser.add_argument('--input-size', default=224, type=int, help='images input size')
     parser.add_argument('--embed_dim', default=48, type=int, help='embedding dimension per head')
 

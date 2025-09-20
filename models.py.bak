@@ -16,10 +16,6 @@ from timm.models.registry import register_model
 
 @register_model
 def convit_tiny(pretrained=False, **kwargs):
-    # Drop timm-internal kwargs we don't accept
-    kwargs.pop('pretrained_cfg', None)
-    kwargs.pop('pretrained_cfg_overlay', None)
-
     num_heads = 4
     kwargs['embed_dim'] *= num_heads
     model = VisionTransformer(
@@ -36,10 +32,6 @@ def convit_tiny(pretrained=False, **kwargs):
 
 @register_model
 def convit_small(pretrained=False, **kwargs):
-
-    kwargs.pop('pretrained_cfg', None)
-    kwargs.pop('pretrained_cfg_overlay', None)
-
     num_heads = 9
     kwargs['embed_dim'] *= num_heads
     model = VisionTransformer(
@@ -56,10 +48,6 @@ def convit_small(pretrained=False, **kwargs):
 
 @register_model
 def convit_base(pretrained=False, **kwargs):
-
-    kwargs.pop('pretrained_cfg', None)
-    kwargs.pop('pretrained_cfg_overlay', None)
-    
     num_heads = 16
     kwargs['embed_dim'] *= num_heads
     model = VisionTransformer(
