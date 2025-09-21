@@ -205,16 +205,16 @@ class MHSA(nn.Module):
         q, k, v = qkv[0], qkv[1], qkv[2]
         attn = (q @ k.transpose(-2, -1)) * self.scale
 
-        # if self.depth_id not in self.cache:
-        #     new_mask_attn = get_mask_attn_wythoff(q, self.depth_id,False)
-        #     self.cache[self.depth_id] = new_mask_attn
-        # else :
-        #     new_mask_attn = self.cache[self.depth_id]     
+        if self.depth_id not in self.cache:
+            new_mask_attn = get_mask_attn_wythoff(q, self.depth_id,False)
+            self.cache[self.depth_id] = new_mask_attn
+        else :
+            new_mask_attn = self.cache[self.depth_id]     
 
-        # if attn.shape[0] < new_mask_attn.shape[0]:
-        #     new_sh = attn.shape[0]
-        #     new_mask_attn = new_mask_attn[:new_sh]    
-        # attn = attn * (new_mask_attn).float() 
+        if attn.shape[0] < new_mask_attn.shape[0]:
+            new_sh = attn.shape[0]
+            new_mask_attn = new_mask_attn[:new_sh]    
+        attn = attn * (new_mask_attn).float() 
        
         attn = attn.softmax(dim=-1)
         attn = self.attn_drop(attn)

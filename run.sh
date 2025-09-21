@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
-# Run ConViT on CIFAR-10 (multi-GPU) with the legacy environment.
+# Run ConViT with configurable dataset (multi-GPU) on legacy environment.
 
 set -euo pipefail
 
 # ----------------- CONFIG -----------------
 ENV_NAME=${ENV_NAME:-convit_legacy}     # conda env with torch==1.8.1 timm==0.3.2
-DATA_PATH=${DATA_PATH:-"./data"}        # CIFAR-10 dataset root
-OUTPUT_DIR=${OUTPUT_DIR:-"exp/c10/baseline_convit_base"}
+DATA_PATH=${DATA_PATH:-"/data/imagenet-tiny"}        
+DATASET=${DATASET:-"CIFAR10"}           # dataset name (e.g., CIFAR10, CIFAR100, IMNET, etc.)
+OUTPUT_DIR=${OUTPUT_DIR:-"exp/${DATASET}/baseline_convit_base_fibottention"}
 MODEL=${MODEL:-"convit_base"}
-BATCH_SIZE=${BATCH_SIZE:-64}            # per-GPU batch size
+BATCH_SIZE=${BATCH_SIZE:-64}            
 EPOCHS=${EPOCHS:-100}
 NUM_WORKERS=${NUM_WORKERS:-8}
 MASTER_PORT=${MASTER_PORT:-29571}
-CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-"4"}   # set GPUs to use
+CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-"4"}   
 
 # ----------------- ENV PYTHON -----------------
 CONDA_BASE="$(conda info --base)"
@@ -32,11 +33,12 @@ IFS=',' read -ra GPUS <<< "$CUDA_VISIBLE_DEVICES"
 NPROC=${#GPUS[@]}
 mkdir -p "$OUTPUT_DIR"
 
-echo "=== ConViT CIFAR-10 run ==="
+echo "=== ConViT Training run ==="
 echo "Python:       $ENV_PY"
 echo "Env:          $ENV_NAME"
 echo "GPUs:         $NPROC  (CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES)"
 echo "Model:        $MODEL"
+echo "Dataset:      $DATASET"
 echo "Data path:    $DATA_PATH"
 echo "Output dir:   $OUTPUT_DIR"
 echo "Batch/GPU:    $BATCH_SIZE"
@@ -58,8 +60,6 @@ print("timm  :", timm.__version__)
 PY
 
 # ----------------- LAUNCH -----------------
-# NOTE: --use_env prevents --local_rank from being passed as a CLI arg.
-#       Your script should read LOCAL_RANK / RANK / WORLD_SIZE from env.
 "$ENV_PY" -m torch.distributed.launch \
   --nproc_per_node="$NPROC" \
   --master_port="$MASTER_PORT" \
@@ -69,6 +69,6 @@ PY
     --batch-size "$BATCH_SIZE" \
     --epochs "$EPOCHS" \
     --data-path "$DATA_PATH" \
-    --data-set CIFAR10 \
+    --data-set "$DATASET" \
     --output_dir "$OUTPUT_DIR" \
     --num_workers "$NUM_WORKERS"
