@@ -14,6 +14,9 @@ from torchvision.datasets.folder import ImageFolder, DatasetFolder, default_load
 
 from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 from timm.data import create_transform
+import gzip, io
+import torch
+from PIL import Image
 
 from typing import Any, Callable, cast, Dict, List, Optional, Tuple
 IMG_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.ppm', '.bmp', '.pgm', '.tif', '.tiff', '.webp')
@@ -130,18 +133,63 @@ class ImageNetDataset(SubsampledDatasetFolder):
                                               is_valid_file=is_valid_file, **kwargs)
         self.imgs = self.samples
 
+class TinyImageNetGZFolder(torch.utils.data.Dataset):
+    def __init__(self, root, transform=None):
+        self.root = root
+        self.transform = transform
+        self.classes = sorted([d for d in os.listdir(root)
+                               if os.path.isdir(os.path.join(root, d))])
+        self.class_to_idx = {c: i for i, c in enumerate(self.classes)}
+        # include gz variants
+        exts = (".jpg", ".jpeg", ".png", ".ppm", ".bmp", ".pgm", ".tif", ".tiff", ".webp")
+        exts_gz = tuple(e + ".gz" for e in exts)
+
+        samples = []
+        for c in self.classes:
+            cdir = os.path.join(root, c)
+            for fn in os.listdir(cdir):
+                p = os.path.join(cdir, fn)
+                if not os.path.isfile(p):
+                    continue
+                lo = fn.lower()
+                if lo.endswith(exts) or lo.endswith(exts_gz):
+                    samples.append((p, self.class_to_idx[c]))
+
+        if not samples:
+            raise FileNotFoundError(f"No images found under {root}")
+        self.samples = samples
+
+    def __len__(self):
+        return len(self.samples)
+
+    def _open_image(self, path):
+        if path.lower().endswith(".gz"):
+            with gzip.open(path, "rb") as f:
+                data = f.read()
+            return Image.open(io.BytesIO(data)).convert("RGB")
+        else:
+            return Image.open(path).convert("RGB")
+
+    def __getitem__(self, idx):
+        path, label = self.samples[idx]
+        img = self._open_image(path)
+        if self.transform:
+            img = self.transform(img)
+        return img, torch.tensor(label, dtype=torch.int64)
 
 def build_dataset(is_train, args):
     transform = build_transform(is_train, args)
 
     if args.data_set == 'CIFAR10':
-        args.data_path = "/datasets01/cifar-pytorch/11222017/"
         dataset = datasets.CIFAR10(root="./data", train=is_train, download=True, transform=transform)
         nb_classes = 10
     if args.data_set == 'CIFAR100':
-        args.data_path = "/datasets01/cifar100/022818/data/"
         dataset = datasets.CIFAR100(root="./data", train=is_train,download=True, transform=transform)
         nb_classes = 100
+    elif args.dataset == "TINYIMNET":
+        root = os.path.join('/data/imagenet-tiny', 'train' if is_train else 'val')
+        dataset = TinyImageNetGZFolder(root, transform=transform)
+        nb_classes = 200
     elif args.data_set == 'IMNET':
         root = os.path.join(args.data_path, 'train' if is_train else 'val')
         dataset = ImageNetDataset(root, transform=transform,
