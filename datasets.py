@@ -186,7 +186,7 @@ def build_dataset(is_train, args):
     if args.data_set == 'CIFAR100':
         dataset = datasets.CIFAR100(root="./data", train=is_train,download=True, transform=transform)
         nb_classes = 100
-    elif args.dataset == "TINYIMNET":
+    elif args.data_set == "TINYIMNET":
         root = os.path.join('/data/imagenet-tiny', 'train' if is_train else 'val')
         dataset = TinyImageNetGZFolder(root, transform=transform)
         nb_classes = 200

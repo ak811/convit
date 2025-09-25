@@ -5,14 +5,14 @@ set -euo pipefail
 
 # ----------------- CONFIG -----------------
 ENV_NAME=${ENV_NAME:-convit_legacy}     # conda env with torch==1.8.1 timm==0.3.2
-DATA_PATH=${DATA_PATH:-"/data/imagenet-tiny"}        
+DATA_PATH=${DATA_PATH:-"/data/imagenet"}        
 DATASET=${DATASET:-"CIFAR10"}           # dataset name (e.g., CIFAR10, CIFAR100, IMNET, etc.)
-OUTPUT_DIR=${OUTPUT_DIR:-"exp/${DATASET}/baseline_convit_base_fibottention"}
+OUTPUT_DIR=${OUTPUT_DIR:-"exp/c10/baseline_convit_base_fibottention"}
 MODEL=${MODEL:-"convit_base"}
 BATCH_SIZE=${BATCH_SIZE:-64}            
 EPOCHS=${EPOCHS:-100}
 NUM_WORKERS=${NUM_WORKERS:-8}
-MASTER_PORT=${MASTER_PORT:-29571}
+MASTER_PORT=${MASTER_PORT:-29572}
 CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-"4"}   
 
 # ----------------- ENV PYTHON -----------------
