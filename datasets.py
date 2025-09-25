@@ -190,11 +190,14 @@ def build_dataset(is_train, args):
         root = os.path.join('/data/imagenet-tiny', 'train' if is_train else 'val')
         dataset = TinyImageNetGZFolder(root, transform=transform)
         nb_classes = 200
-    elif args.data_set == 'IMNET':
-        root = os.path.join(args.data_path, 'train' if is_train else 'val')
-        dataset = ImageNetDataset(root, transform=transform,
-                                  sampling_ratio= (args.sampling_ratio if is_train else 1.), nb_classes=args.nb_classes)
-        nb_classes = args.nb_classes if args.nb_classes is not None else 1000
+    elif args.dataset == "IMNET":
+        root = getattr(args, "imagenet_root", "/data/imagenet")
+        split = "train" if is_train else "val"
+        dataset = datasets.ImageFolder(
+            os.path.join(root, split),
+            transform=transform
+        )
+        nb_classes = 1000
     elif args.data_set == 'INAT':
         dataset = INatDataset(args.data_path, train=is_train, year=2018,
                               category=args.inat_category, transform=transform)
