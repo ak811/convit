@@ -5,7 +5,6 @@ set -euo pipefail
 
 # ----------------- CONFIG -----------------
 ENV_NAME=${ENV_NAME:-convit_legacy}     # conda env with torch==1.8.1 timm==0.3.2
-DATA_PATH=${DATA_PATH:-"/data/imagenet"}        
 DATASET=${DATASET:-"CIFAR10"}           # dataset name (e.g., CIFAR10, CIFAR100, IMNET, etc.)
 OUTPUT_DIR=${OUTPUT_DIR:-"exp/c10/baseline_convit_base_fibottention"}
 MODEL=${MODEL:-"convit_base"}
@@ -39,7 +38,6 @@ echo "Env:          $ENV_NAME"
 echo "GPUs:         $NPROC  (CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES)"
 echo "Model:        $MODEL"
 echo "Dataset:      $DATASET"
-echo "Data path:    $DATA_PATH"
 echo "Output dir:   $OUTPUT_DIR"
 echo "Batch/GPU:    $BATCH_SIZE"
 echo "Epochs:       $EPOCHS"
@@ -68,7 +66,6 @@ PY
     --model "$MODEL" \
     --batch-size "$BATCH_SIZE" \
     --epochs "$EPOCHS" \
-    --data-path "$DATA_PATH" \
     --data-set "$DATASET" \
     --output_dir "$OUTPUT_DIR" \
     --num_workers "$NUM_WORKERS"
